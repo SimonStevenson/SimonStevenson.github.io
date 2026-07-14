@@ -70,6 +70,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -107,6 +108,13 @@ a {
   color: var(--accent-primary);
   text-decoration: none;
   transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+svg {
+  display: block;
+  flex-shrink: 0;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* Helper to handle global accent colors depending on Mode */
@@ -1077,8 +1085,8 @@ footer {
   }
 }
 
-/* Mobile View: max-width 768px (Portrait Smartphones) */
-@media (max-width: 768px) {
+/* Mobile / Tablet Navigation */
+@media (max-width: 992px) {
   section {
     padding: 3.5rem 0;
   }
@@ -1096,7 +1104,9 @@ footer {
     top: 4rem;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: auto;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
     background-color: var(--bg-navbar);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -1133,6 +1143,10 @@ footer {
     width: 220px;
     height: 220px;
   }
+}
+
+/* Mobile View: max-width 768px (Portrait Smartphones) */
+@media (max-width: 768px) {
   
   .pub-card {
     grid-template-columns: 1fr;

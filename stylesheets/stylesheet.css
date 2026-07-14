@@ -1,881 +1,1159 @@
-/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
-/**
- * 1. Set default font family to sans-serif.
- * 2. Prevent iOS text size adjust after orientation change, without disabling
- *    user zoom.
- */
+/* ==========================================================================
+   CSS Custom Properties (Variables)
+   ========================================================================== */
+:root {
+  /* Light Theme Variables */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-navbar: rgba(248, 250, 252, 0.8);
+  --border-color: rgba(226, 232, 240, 0.8);
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  --accent-primary: #3b82f6; /* Blue for Industry */
+  --accent-primary-rgb: 59, 130, 246;
+  --accent-academic: #d97706; /* Amber for Academia */
+  --accent-academic-rgb: 217, 119, 6;
+  
+  --glow-color: rgba(59, 130, 246, 0.15);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+  --border-radius-xl: 30px;
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Variables */
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-card: rgba(17, 24, 39, 0.7);
+  --bg-navbar: rgba(11, 15, 25, 0.8);
+  --border-color: rgba(31, 41, 55, 0.7);
+  
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  
+  --accent-primary: #6366f1; /* Indigo for Industry */
+  --accent-primary-rgb: 99, 102, 241;
+  --accent-academic: #fbbf24; /* Warm Gold for Academia */
+  --accent-academic-rgb: 251, 191, 36;
+  
+  --glow-color: rgba(99, 102, 241, 0.25);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   Base Styles & Reset
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html {
-  font-family: sans-serif; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
-  -ms-text-size-adjust: 100%; /* 2 */
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
-
-/**
- * Remove default margin.
- */
 
 body {
-  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color var(--transition-slow), color var(--transition-fast);
 }
 
-/* HTML5 display definitions
-   ========================================================================== */
-
-/**
- * Correct `block` display not defined for any HTML5 element in IE 8/9.
- * Correct `block` display not defined for `details` or `summary` in IE 10/11
- * and Firefox.
- * Correct `block` display not defined for `main` in IE 11.
- */
-
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-menu,
-nav,
-section,
-summary {
-  display: block;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--border-radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
-/**
- * 1. Correct `inline-block` display not defined in IE 8/9.
- * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
- */
-
-audio,
-canvas,
-progress,
-video {
-  display: inline-block; /* 1 */
-  vertical-align: baseline; /* 2 */
-}
-
-/**
- * Prevent modern browsers from displaying `audio` without controls.
- * Remove excess height in iOS 5 devices.
- */
-
-audio:not([controls]) {
-  display: none;
-  height: 0;
-}
-
-/**
- * Address `[hidden]` styling not present in IE 8/9/10.
- * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
- */
-
-[hidden],
-template {
-  display: none;
-}
-
-/* Links
-   ========================================================================== */
-
-/**
- * Remove the gray background color from active links in IE 10.
- */
-
-a {
-  background-color: transparent;
-}
-
-/**
- * Improve readability when focused and also mouse hovered in all browsers.
- */
-
-a:active,
-a:hover {
-  outline: 0;
-}
-
-/* Text-level semantics
-   ========================================================================== */
-
-/**
- * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
- */
-
-abbr[title] {
-  border-bottom: 1px dotted;
-}
-
-/**
- * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
- */
-
-b,
-strong {
-  font-weight: bold;
-}
-
-/**
- * Address styling not present in Safari and Chrome.
- */
-
-dfn {
-  font-style: italic;
-}
-
-/**
- * Address variable `h1` font-size and margin within `section` and `article`
- * contexts in Firefox 4+, Safari, and Chrome.
- */
-
-h1 {
-  margin: 0.67em 0;
-  font-size: 2em;
-}
-
-/**
- * Address styling not present in IE 8/9.
- */
-
-mark {
-  color: #000;
-  background: #ff0;
-}
-
-/**
- * Address inconsistent and variable font size in all browsers.
- */
-
-small {
-  font-size: 80%;
-}
-
-/**
- * Prevent `sub` and `sup` affecting `line-height` in all browsers.
- */
-
-sub,
-sup {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
-  vertical-align: baseline;
-}
-
-sup {
-  top: -0.5em;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-/* Embedded content
-   ========================================================================== */
-
-/**
- * Remove border when inside `a` element in IE 8/9/10.
- */
-
-img {
-  border: 0;
-}
-
-/**
- * Correct overflow not hidden in IE 9/10/11.
- */
-
-svg:not(:root) {
-  overflow: hidden;
-}
-
-/* Grouping content
-   ========================================================================== */
-
-/**
- * Address margin not present in IE 8/9 and Safari.
- */
-
-figure {
-  margin: 1em 40px;
-}
-
-/**
- * Address differences between Firefox and other browsers.
- */
-
-hr {
-  height: 0;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-}
-
-/**
- * Contain overflow in all browsers.
- */
-
-pre {
-  overflow: auto;
-}
-
-/**
- * Address odd `em`-unit font size rendering in all browsers.
- */
-
-code,
-kbd,
-pre,
-samp {
-  font-family: monospace, monospace;
-  font-size: 1em;
-}
-
-/* Forms
-   ========================================================================== */
-
-/**
- * Known limitation: by default, Chrome and Safari on OS X allow very limited
- * styling of `select`, unless a `border` property is set.
- */
-
-/**
- * 1. Correct color not being inherited.
- *    Known issue: affects color of disabled elements.
- * 2. Correct font properties not being inherited.
- * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
- */
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  margin: 0; /* 3 */
-  font: inherit; /* 2 */
-  color: inherit; /* 1 */
-}
-
-/**
- * Address `overflow` set to `hidden` in IE 8/9/10/11.
- */
-
-button {
-  overflow: visible;
-}
-
-/**
- * Address inconsistent `text-transform` inheritance for `button` and `select`.
- * All other form control elements do not inherit `text-transform` values.
- * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
- * Correct `select` style inheritance in Firefox.
- */
-
-button,
-select {
-  text-transform: none;
-}
-
-/**
- * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
- *    and `video` controls.
- * 2. Correct inability to style clickable `input` types in iOS.
- * 3. Improve usability and consistency of cursor style between image-type
- *    `input` and others.
- */
-
-button,
-html input[type="button"], /* 1 */
-input[type="reset"],
-input[type="submit"] {
-  -webkit-appearance: button; /* 2 */
-  cursor: pointer; /* 3 */
-}
-
-/**
- * Re-set default cursor for disabled elements.
- */
-
-button[disabled],
-html input[disabled] {
-  cursor: default;
-}
-
-/**
- * Remove inner padding and border in Firefox 4+.
- */
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-/**
- * Address Firefox 4+ setting `line-height` on `input` using `!important` in
- * the UA stylesheet.
- */
-
-input {
-  line-height: normal;
-}
-
-/**
- * It's recommended that you don't attempt to style these elements.
- * Firefox's implementation doesn't respect box-sizing, padding, or width.
- *
- * 1. Address box sizing set to `content-box` in IE 8/9/10.
- * 2. Remove excess padding in IE 8/9/10.
- */
-
-input[type="checkbox"],
-input[type="radio"] {
-  box-sizing: border-box; /* 1 */
-  padding: 0; /* 2 */
-}
-
-/**
- * Fix the cursor style for Chrome's increment/decrement buttons. For certain
- * `font-size` values of the `input`, it causes the cursor style of the
- * decrement button to change from `default` to `text`.
- */
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  height: auto;
-}
-
-/**
- * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
- * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
- *    (include `-moz` to future-proof).
- */
-
-input[type="search"] {
-  -webkit-box-sizing: content-box; /* 2 */
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  -webkit-appearance: textfield; /* 1 */
-}
-
-/**
- * Remove inner padding and search cancel button in Safari and Chrome on OS X.
- * Safari (but not Chrome) clips the cancel button when the search input has
- * padding (and `textfield` appearance).
- */
-
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-/**
- * Define consistent border, margin, and padding.
- */
-
-fieldset {
-  padding: 0.35em 0.625em 0.75em;
-  margin: 0 2px;
-  border: 1px solid #c0c0c0;
-}
-
-/**
- * 1. Correct `color` not being inherited in IE 8/9/10/11.
- * 2. Remove padding so people aren't caught out if they zero out fieldsets.
- */
-
-legend {
-  padding: 0; /* 2 */
-  border: 0; /* 1 */
-}
-
-/**
- * Remove default vertical scrollbar in IE 8/9/10/11.
- */
-
-textarea {
-  overflow: auto;
-}
-
-/**
- * Don't inherit the `font-weight` (applied by a rule above).
- * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
- */
-
-optgroup {
-  font-weight: bold;
-}
-
-/* Tables
-   ========================================================================== */
-
-/**
- * Remove most spacing between table cells.
- */
-
-table {
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-
-td,
-th {
-  padding: 0;
-}
-
-/* LAYOUT STYLES */
-body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #666;
-  background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
-}
-
-p {
-  margin-top: 0;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 a {
-  color: #2879d0;
-}
-a:hover {
-  color: #2268b2;
-}
-
-header {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
-  border-bottom: solid 1px #275da1;
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-header h1 {
-  width: 540px;
-  margin-top: 0;
-  margin-bottom: 0.2em;
-  font-size: 72px;
-  font-weight: normal;
-  line-height: 1;
-  color: #fff;
-  letter-spacing: -1px;
+/* Helper to handle global accent colors depending on Mode */
+body.mode-academia {
+  --accent-active: var(--accent-academic);
+  --accent-active-rgb: var(--accent-academic-rgb);
+}
+body.mode-industry {
+  --accent-active: var(--accent-primary);
+  --accent-active-rgb: var(--accent-primary-rgb);
 }
 
-header h2 {
-  width: 540px;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 26px;
-  font-weight: normal;
-  line-height: 1.3;
-  color: #9ddcff;
-  letter-spacing: 0;
+/* ==========================================================================
+   Dual Mode Display Rules
+   ========================================================================== */
+body.mode-academia .industry-only {
+  display: none !important;
+}
+body.mode-industry .academia-only {
+  display: none !important;
 }
 
-.inner {
-  position: relative;
-  width: 940px;
+/* Transition animations for content switching */
+.mode-fade-in {
+  animation: fadeIn var(--transition-slow);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Layout Containers
+   ========================================================================== */
+.container {
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-#content-wrapper {
-  padding-top: 30px;
-  border-top: solid 1px #fff;
+section {
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
-#main-content {
-  float: left;
-  width: 690px;
-}
-
-#main-content img {
-  max-width: 100%;
-}
-
-aside#sidebar {
-  float: right;
-  width: 200px;
-  min-height: 504px;
-  padding-left: 20px;
-  font-size: 12px;
-  line-height: 1.3;
-  background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
-}
-
-aside#sidebar p.repo-owner,
-aside#sidebar p.repo-owner a {
-  font-weight: bold;
-}
-
-#downloads {
-  margin-bottom: 40px;
-}
-
-a.button {
-  width: 134px;
-  height: 58px;
-  padding-top: 22px;
-  padding-left: 68px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 23px;
-  line-height: 1.2;
-  color: #fff;
-}
-a.button small {
-  display: block;
-  font-size: 11px;
-}
-header a.button {
-  position: absolute;
+/* ==========================================================================
+   Navigation Bar (Glassmorphism)
+   ========================================================================== */
+.navbar {
+  position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  background: transparent url(../images/github-button.png) 0 0 no-repeat;
+  z-index: 1000;
+  background-color: var(--bg-navbar);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color var(--transition-slow), border-color var(--transition-slow);
 }
-aside a.button {
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.navbar-brand {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-brand span {
+  background: linear-gradient(135deg, var(--accent-academic) 0%, var(--accent-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-active);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-active);
+  transition: width var(--transition-fast);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Mobile Menu Toggle */
+.mobile-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* ==========================================================================
+   Polished Toggle Controls (Mode and Theme Switchers)
+   ========================================================================== */
+
+/* Toggle Pill Container */
+.switcher-pill {
+  display: flex;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: 3px;
+  position: relative;
+}
+
+.switcher-pill-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  border-radius: var(--border-radius-lg);
+  transition: color var(--transition-fast);
+  z-index: 1;
+}
+
+.switcher-pill-btn.active {
+  color: #ffffff;
+}
+
+.switcher-pill-btn.active.academia-btn {
+  background-color: var(--accent-academic);
+}
+
+.switcher-pill-btn.active.industry-btn {
+  background-color: var(--accent-primary);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--accent-active);
+  transform: scale(1.05);
+}
+
+.theme-toggle-btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+/* Hide inactive theme icons */
+[data-theme="dark"] .theme-toggle-btn .sun-icon {
   display: block;
-  width: 138px;
-  padding-left: 64px;
-  margin-bottom: 20px;
-  font-size: 21px;
-  background: transparent url(../images/download-button.png) 0 0 no-repeat;
+}
+[data-theme="dark"] .theme-toggle-btn .moon-icon {
+  display: none;
+}
+.theme-toggle-btn .sun-icon {
+  display: none;
+}
+.theme-toggle-btn .moon-icon {
+  display: block;
 }
 
-code, pre {
-  margin-bottom: 30px;
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-  font-size: 13px;
-  color: #222;
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+  background: radial-gradient(circle at 90% 10%, var(--glow-color) 0%, transparent 40%);
 }
 
-code {
-  padding: 0 3px;
-  background-color: #f2f8fc;
-  border: solid 1px #dbe7f3;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 3.5rem;
+  align-items: center;
 }
 
-pre {
-  padding: 20px;
-  overflow: auto;
-  text-shadow: none;
-  background: #fff;
-  border: solid 1px #f2f2f2;
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
-pre code {
-  padding: 0;
-  color: #2879d0;
-  background-color: #fff;
+
+.avatar-container {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--accent-academic) 0%, var(--accent-primary) 100%);
+  box-shadow: 0 0 30px var(--glow-color);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.avatar-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 40px var(--accent-active);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+}
+
+/* SVG Avatar Fallback style */
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-mode {
+  align-self: flex-start;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--border-radius-xl);
+  margin-bottom: 1rem;
+}
+
+body.mode-academia .badge-mode {
+  background-color: rgba(217, 119, 6, 0.1);
+  color: var(--accent-academic);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+
+body.mode-industry .badge-mode {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--accent-primary);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.hero-name {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.hero-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent-active);
+  margin-bottom: 1.5rem;
+}
+
+.hero-desc {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
   border: none;
 }
 
-ul, ol, dl {
-  margin-bottom: 20px;
+.btn-primary {
+  background-color: var(--accent-active);
+  color: #ffffff;
 }
 
-
-/* COMMON STYLES */
-
-hr {
-  height: 0;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  border: 0;
-  border-top: solid 1px #ddd;
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--accent-active-rgb), 0.3);
 }
 
-table {
-  width: 100%;
-  border: 1px solid #ebebeb;
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
-th {
+.btn-secondary:hover {
+  background-color: var(--bg-secondary);
+  transform: translateY(-2px);
+}
+
+/* Social Icon Bar */
+.social-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.social-btn:hover {
+  color: var(--accent-active);
+  border-color: var(--accent-active);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--glow-color);
+}
+
+.social-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   Dual-Mode Switcher Callout Box
+   ========================================================================== */
+.mode-intro-card {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.mode-intro-text p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.mode-intro-text strong {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Grid & Card Layouts (Projects and Highlights)
+   ========================================================================== */
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.section-tag {
+  color: var(--accent-active);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.section-desc {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-top: 0.5rem;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 2rem;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow Border hover effect */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-active), transparent);
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--accent-active-rgb), 0.3);
+  box-shadow: var(--shadow-lg);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(var(--accent-active-rgb), 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-active);
+  margin-bottom: 1.5rem;
+}
+
+.card-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.card-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.card-link {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent-active);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.card-link:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Publications List
+   ========================================================================== */
+.publications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pub-filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-btn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--border-radius-xl);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background-color: var(--accent-academic);
+  border-color: var(--accent-academic);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(var(--accent-academic-rgb), 0.2);
+}
+
+.pub-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.pub-card:hover {
+  border-color: var(--accent-academic);
+  transform: translateX(4px);
+}
+
+.pub-year {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--accent-academic);
+  background-color: rgba(var(--accent-academic-rgb), 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+  min-width: 60px;
+}
+
+.pub-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pub-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.pub-authors {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.pub-authors strong {
+  color: var(--text-primary);
+}
+
+.pub-journal {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.pub-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pub-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.pub-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-academic);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pub-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   CV Timeline Section
+   ========================================================================== */
+.cv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+}
+
+.cv-column-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-left: 2px solid var(--border-color);
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+/* Timeline dot */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.5rem - 6px - 1px);
+  top: 0.3rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--accent-active);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 0 4px rgba(var(--accent-active-rgb), 0.15);
+  transition: all var(--transition-fast);
+}
+
+.timeline-item:hover::before {
+  background-color: var(--text-primary);
+  transform: scale(1.2);
+}
+
+.timeline-date {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent-active);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.timeline-institution {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.skill-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  border-radius: var(--border-radius-md);
+  transition: border-color var(--transition-fast);
+}
+
+.skill-card:hover {
+  border-color: var(--accent-active);
+}
+
+.skill-category {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.skill-bar {
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background-color: var(--accent-active);
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Contact Section & Form
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 3.5rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contact-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-active);
+}
+
+.contact-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.contact-details h4 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.contact-details p, .contact-details a {
+  font-size: 1.05rem;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
-td {
-  font-weight: 300;
-  text-align: center;
-  border: 1px solid #ebebeb;
+.contact-form {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 2.5rem;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-form {
-  padding: 20px;
-  background: #f2f2f2;
-
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-
-/* GENERAL ELEMENT TYPE STYLES */
-
-#main-content h1 {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 2.8em;
-  font-weight: normal;
-  color: #474747;
-  text-indent: 6px;
-  letter-spacing: -1px;
+.form-group label {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
-#main-content h1:before {
-  padding-right: 0.3em;
-  margin-left: -0.9em;
-  color: #9ddcff;
-  content: "/";
+.form-control {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
 }
 
-#main-content h2 {
-  margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 22px;
-  font-weight: bold;
-  color: #474747;
-  text-indent: 4px;
-}
-#main-content h2:before {
-  padding-right: 0.3em;
-  margin-left: -1.5em;
-  content: "//";
-  color: #9ddcff;
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-active);
+  box-shadow: 0 0 0 3px rgba(var(--accent-active-rgb), 0.15);
 }
 
-#main-content h3 {
-  margin-top: 24px;
-  margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 18px;
-  font-weight: bold;
-  color: #474747;
-  text-indent: 3px;
-}
-
-#main-content h3:before {
-  padding-right: 0.3em;
-  margin-left: -2em;
-  content: "///";
-  color: #9ddcff;
-}
-
-#main-content h4 {
-  margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 15px;
-  font-weight: bold;
-  color: #474747;
-  text-indent: 3px;
-}
-
-h4:before {
-  padding-right: 0.3em;
-  margin-left: -2.8em;
-  content: "////";
-  color: #9ddcff;
-}
-
-#main-content h5 {
-  margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 14px;
-  color: #474747;
-  text-indent: 3px;
-}
-h5:before {
-  padding-right: 0.3em;
-  margin-left: -3.2em;
-  content: "/////";
-  color: #9ddcff;
-}
-
-#main-content h6 {
-  margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: .8em;
-  color: #474747;
-  text-indent: 3px;
-}
-h6:before {
-  padding-right: 0.3em;
-  margin-left: -3.7em;
-  content: "//////";
-  color: #9ddcff;
-}
-
-p {
-  margin-bottom: 20px;
-}
-
-a {
-  text-decoration: none;
-}
-
-p a {
-  font-weight: 400;
-}
-
-blockquote {
-  padding: 0 0 0 30px;
-  margin-bottom: 20px;
-  font-size: 1.6em;
-  border-left: 10px solid #e9e9e9;
-}
-
-ul {
-  list-style-position: inside;
-  list-style: disc;
-  padding-left: 20px;
-}
-
-ol {
-  list-style-position: inside;
-  list-style: decimal;
-  padding-left: 3px;
-}
-
-dl dd {
-  font-style: italic;
-  font-weight: 100;
-}
-
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
-  padding-top: 20px;
-  padding-bottom: 30px;
-  margin-top: 40px;
-  font-size: 13px;
-  color: #aaa;
-  background: transparent url('../images/hr.png') 0 0 no-repeat;
+  background-color: var(--bg-secondary);
+  padding: 3rem 0;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
 }
 
-footer a {
-  color: #666;
-}
-footer a:hover {
-  color: #444;
-}
-
-/* MISC */
-.clearfix:after {
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-  content: '.';
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.clearfix {display: inline-block;}
-* html .clearfix {height: 1%;}
-.clearfix {display: block;}
-
-/* #Media Queries
-================================================== */
-
-/* Smaller than standard 960 (devices and browsers) */
-@media only screen and (max-width: 959px) { }
-
-/* Tablet Portrait size to standard 960 (devices and browsers) */
-@media only screen and (min-width: 768px) and (max-width: 959px) {
-  .inner {
-    width: 740px;
-  }
-  header h1, header h2 {
-    width: 340px;
-  }
-  header h1 {
-    font-size: 60px;
-  }
-  header h2 {
-    font-size: 30px;
-  }
-  #main-content {
-    width: 490px;
-  }
-  #main-content h1:before,
-  #main-content h2:before,
-  #main-content h3:before,
-  #main-content h4:before,
-  #main-content h5:before,
-  #main-content h6:before {
-    padding-right: 0;
-    margin-left: 0;
-    content: none;
-  }
+.footer-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-/* All Mobile Sizes (devices and browser) */
-@media only screen and (max-width: 767px) {
-  .inner {
-    width: 93%;
-  }
-  header {
-    padding: 20px 0;
-  }
-  header .inner {
-    position: relative;
-  }
-  header h1, header h2 {
-    width: 100%;
-  }
-  header h1 {
-    font-size: 48px;
-  }
-  header h2 {
-    font-size: 24px;
-  }
-  header a.button {
-    position: relative;
-    display: inline-block;
-    width: auto;
-    height: auto;
-    padding: 5px 10px;
-    margin-top: 15px;
-    font-size: 13px;
-    line-height: 1;
-    color: #2879d0;
+/* ==========================================================================
+   Responsive Design Breakpoints
+   ========================================================================== */
+
+/* Tablet View: max-width 992px */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
     text-align: center;
-    background-color: #9ddcff;
-    background-image: none;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    gap: 2rem;
   }
-  header a.button small {
-    display: inline;
-    font-size: 13px;
+  .hero-visual {
+    order: -1;
   }
-  #main-content,
-  aside#sidebar {
-    float: none;
-    width: 100% ! important;
+  .hero-actions, .social-links {
+    justify-content: center;
   }
-  aside#sidebar {
-    min-height: 0;
-    padding: 20px 0;
-    margin-top: 20px;
-    background-image: none;
-    border-top: solid 1px #ddd;
+  .badge-mode {
+    align-self: center;
   }
-  aside#sidebar a.button {
-    display: none;
-  }
-  #main-content h1:before,
-  #main-content h2:before,
-  #main-content h3:before,
-  #main-content h4:before,
-  #main-content h5:before,
-  #main-content h6:before {
-    padding-right: 0;
-    margin-left: 0;
-    content: none;
+  .cv-grid, .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 }
 
-/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
-@media only screen and (min-width: 480px) and (max-width: 767px) { }
+/* Mobile View: max-width 768px (Portrait Smartphones) */
+@media (max-width: 768px) {
+  section {
+    padding: 3.5rem 0;
+  }
+  
+  .navbar-container {
+    height: 4rem;
+  }
+  
+  .mobile-nav-toggle {
+    display: block;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-navbar);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+    transform: translateY(-150%);
+    transition: transform var(--transition-slow);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .nav-links.open {
+    transform: translateY(0);
+  }
+  
+  .nav-controls {
+    gap: 0.75rem;
+  }
+  
+  .hero-name {
+    font-size: 2.75rem;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  
+  .hero-desc {
+    font-size: 1.05rem;
+  }
+  
+  .avatar-container {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .pub-card {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .pub-year {
+    align-self: start;
+  }
+}
 
-/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-@media only screen and (max-width: 479px) { }
-
+/* Small Mobile View: max-width 480px */
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: 2.2rem;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .card {
+    padding: 1.5rem;
+  }
+  .contact-form {
+    padding: 1.5rem;
+  }
+  .switcher-pill-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}

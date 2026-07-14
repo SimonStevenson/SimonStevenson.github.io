@@ -797,6 +797,12 @@ body.mode-industry .badge-mode {
   text-decoration: underline;
 }
 
+.pub-show-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 /* ==========================================================================
    CV Timeline Section
    ========================================================================== */

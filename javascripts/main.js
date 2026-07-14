@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Publications Filtering
   const filterBtns = document.querySelectorAll('.filter-btn');
   const pubCards = document.querySelectorAll('.pub-card');
+  const pubToggleBtn = document.getElementById('pub-toggle');
+  const visiblePublicationLimit = 5;
+  let activePublicationFilter = 'all';
+  let publicationsExpanded = false;
 
   // Animated elements when mode changes
   const modeDependentElements = document.querySelectorAll('.mode-dependent');
@@ -132,29 +136,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // Publications Filter
   // ==========================================================================
+  const renderPublications = () => {
+    const matchingCards = Array.from(pubCards).filter(card => {
+      const categories = card.getAttribute('data-category').split(' ');
+      return activePublicationFilter === 'all' || categories.includes(activePublicationFilter);
+    });
+    const shouldLimit = !publicationsExpanded && matchingCards.length > visiblePublicationLimit;
+
+    pubCards.forEach(card => {
+      card.style.display = 'none';
+    });
+
+    matchingCards.forEach((card, index) => {
+      if (!shouldLimit || index < visiblePublicationLimit) {
+        card.style.display = 'grid';
+        card.classList.remove('mode-fade-in');
+        void card.offsetWidth;
+        card.classList.add('mode-fade-in');
+      }
+    });
+
+    if (pubToggleBtn) {
+      const hasHiddenCards = matchingCards.length > visiblePublicationLimit;
+      pubToggleBtn.style.display = hasHiddenCards ? 'inline-flex' : 'none';
+      pubToggleBtn.setAttribute('aria-expanded', publicationsExpanded ? 'true' : 'false');
+      pubToggleBtn.textContent = publicationsExpanded
+        ? 'Show fewer publications'
+        : `Show all ${matchingCards.length} publications`;
+    }
+  };
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       // Remove active from other buttons
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       
-      const filterValue = btn.getAttribute('data-filter');
-      
-      pubCards.forEach(card => {
-        const categories = card.getAttribute('data-category').split(' ');
-        
-        if (filterValue === 'all' || categories.includes(filterValue)) {
-          card.style.display = 'grid';
-          // Re-trigger animation
-          card.classList.remove('mode-fade-in');
-          void card.offsetWidth;
-          card.classList.add('mode-fade-in');
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      activePublicationFilter = btn.getAttribute('data-filter');
+      publicationsExpanded = false;
+      renderPublications();
     });
   });
+
+  if (pubToggleBtn) {
+    pubToggleBtn.addEventListener('click', () => {
+      publicationsExpanded = !publicationsExpanded;
+      renderPublications();
+    });
+    renderPublications();
+  }
 
   // ==========================================================================
   // Intersection Observer for Active Nav Highlighting

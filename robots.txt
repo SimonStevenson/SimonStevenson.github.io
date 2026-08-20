@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://simonstevenson.github.io/sitemap.xml

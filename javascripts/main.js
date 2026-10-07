@@ -145,6 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pubCards.forEach(card => {
       card.style.display = 'none';
+      // Lets the print stylesheet show every card in the active filter, ignoring the "show more" limit
+      card.classList.toggle('pub-filtered-out', !matchingCards.includes(card));
     });
 
     matchingCards.forEach((card, index) => {

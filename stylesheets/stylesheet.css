@@ -137,6 +137,11 @@ body.mode-industry .academia-only {
   display: none !important;
 }
 
+/* Content that only appears on the printed CV (see print.css) */
+.print-only {
+  display: none !important;
+}
+
 /* Transition animations for content switching */
 .mode-fade-in {
   animation: fadeIn var(--transition-slow);
@@ -195,6 +200,7 @@ section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .navbar-brand span {
@@ -206,7 +212,8 @@ section {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  margin: 0 1.5rem;
   list-style: none;
 }
 
@@ -216,6 +223,7 @@ section {
   font-size: 0.95rem;
   position: relative;
   padding: 0.5rem 0;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -241,6 +249,7 @@ section {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
 }
 
 /* Mobile Menu Toggle */
@@ -252,6 +261,11 @@ section {
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.25rem;
+}
+
+.mobile-nav-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 /* ==========================================================================
@@ -946,18 +960,12 @@ body.mode-industry .badge-mode {
 }
 
 /* ==========================================================================
-   Contact Section & Form
+   Contact Section
    ========================================================================== */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1.8fr;
-  gap: 3.5rem;
-}
-
 .contact-info {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem 3.5rem;
 }
 
 .contact-item {
@@ -995,46 +1003,6 @@ body.mode-industry .badge-mode {
   font-size: 1.05rem;
   color: var(--text-primary);
   font-weight: 500;
-}
-
-.contact-form {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  padding: 2.5rem;
-  border-radius: var(--border-radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.form-control {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.75rem 1rem;
-  border-radius: var(--border-radius-sm);
-  font-family: inherit;
-  font-size: 0.95rem;
-  transition: all var(--transition-fast);
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--accent-active);
-  box-shadow: 0 0 0 3px rgba(var(--accent-active-rgb), 0.15);
 }
 
 /* ==========================================================================
@@ -1079,18 +1047,14 @@ footer {
   .badge-mode {
     align-self: center;
   }
-  .cv-grid, .contact-grid {
+  .cv-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
 }
 
-/* Mobile / Tablet Navigation */
-@media (max-width: 992px) {
-  section {
-    padding: 3.5rem 0;
-  }
-  
+/* Mobile / Tablet Navigation: collapse to the menu button before the links run out of room */
+@media (max-width: 1200px) {
   .navbar-container {
     height: 4rem;
   }
@@ -1107,10 +1071,10 @@ footer {
     bottom: auto;
     max-height: calc(100vh - 4rem);
     overflow-y: auto;
-    background-color: var(--bg-navbar);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* Solid: a backdrop blur is ignored inside the already-blurred navbar */
+    background-color: var(--bg-primary);
     flex-direction: column;
+    margin: 0;
     padding: 3rem 1.5rem;
     gap: 2rem;
     transform: translateY(-150%);
@@ -1126,7 +1090,13 @@ footer {
   .nav-controls {
     gap: 0.75rem;
   }
-  
+}
+
+@media (max-width: 992px) {
+  section {
+    padding: 3.5rem 0;
+  }
+
   .hero-name {
     font-size: 2.75rem;
   }
@@ -1158,6 +1128,18 @@ footer {
   }
 }
 
+/* Narrow phones: let the name wrap so the nav controls stay on screen */
+@media (max-width: 520px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+  .navbar-brand {
+    white-space: normal;
+    font-size: 1.2rem;
+    line-height: 1.1;
+  }
+}
+
 /* Small Mobile View: max-width 480px */
 @media (max-width: 480px) {
   .hero-name {
@@ -1167,9 +1149,6 @@ footer {
     font-size: 1.8rem;
   }
   .card {
-    padding: 1.5rem;
-  }
-  .contact-form {
     padding: 1.5rem;
   }
   .switcher-pill-btn {
